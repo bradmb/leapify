@@ -22,5 +22,11 @@ namespace Core.LeapMotion
             Gesture = new GestureListener();
             _leap.AddListener(Gesture);
         }
+
+        public void Disconnect()
+        {
+            _leap.RemoveListener(Gesture);
+            _leap.Dispose();
+        }
     }
 }

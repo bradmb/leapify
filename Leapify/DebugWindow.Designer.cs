@@ -37,6 +37,10 @@
             this.txtLeapMessages = new System.Windows.Forms.TextBox();
             this.spotifyCheck = new System.Windows.Forms.Timer(this.components);
             this.leapMotionCheck = new System.Windows.Forms.Timer(this.components);
+            this.lblLeapFingers = new System.Windows.Forms.Label();
+            this.lblLeapFingersValue = new System.Windows.Forms.Label();
+            this.lblLeapTools = new System.Windows.Forms.Label();
+            this.lblLeapToolsValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblSpotify
@@ -92,25 +96,69 @@
             this.txtLeapMessages.Location = new System.Drawing.Point(15, 81);
             this.txtLeapMessages.Multiline = true;
             this.txtLeapMessages.Name = "txtLeapMessages";
-            this.txtLeapMessages.Size = new System.Drawing.Size(257, 168);
+            this.txtLeapMessages.Size = new System.Drawing.Size(505, 296);
             this.txtLeapMessages.TabIndex = 1;
             // 
             // spotifyCheck
             // 
+            this.spotifyCheck.Interval = 1000;
             this.spotifyCheck.Tick += new System.EventHandler(this.spotifyCheck_Tick);
             // 
             // leapMotionCheck
             // 
+            this.leapMotionCheck.Interval = 1000;
             this.leapMotionCheck.Tick += new System.EventHandler(this.leapMotionCheck_Tick);
+            // 
+            // lblLeapFingers
+            // 
+            this.lblLeapFingers.AutoSize = true;
+            this.lblLeapFingers.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLeapFingers.Location = new System.Drawing.Point(219, 35);
+            this.lblLeapFingers.Name = "lblLeapFingers";
+            this.lblLeapFingers.Size = new System.Drawing.Size(101, 13);
+            this.lblLeapFingers.TabIndex = 0;
+            this.lblLeapFingers.Text = "Fingers In Frame";
+            // 
+            // lblLeapFingersValue
+            // 
+            this.lblLeapFingersValue.AutoSize = true;
+            this.lblLeapFingersValue.Location = new System.Drawing.Point(338, 35);
+            this.lblLeapFingersValue.Name = "lblLeapFingersValue";
+            this.lblLeapFingersValue.Size = new System.Drawing.Size(13, 13);
+            this.lblLeapFingersValue.TabIndex = 0;
+            this.lblLeapFingersValue.Text = "0";
+            // 
+            // lblLeapTools
+            // 
+            this.lblLeapTools.AutoSize = true;
+            this.lblLeapTools.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLeapTools.Location = new System.Drawing.Point(219, 9);
+            this.lblLeapTools.Name = "lblLeapTools";
+            this.lblLeapTools.Size = new System.Drawing.Size(91, 13);
+            this.lblLeapTools.TabIndex = 0;
+            this.lblLeapTools.Text = "Tools In Frame";
+            // 
+            // lblLeapToolsValue
+            // 
+            this.lblLeapToolsValue.AutoSize = true;
+            this.lblLeapToolsValue.Location = new System.Drawing.Point(338, 9);
+            this.lblLeapToolsValue.Name = "lblLeapToolsValue";
+            this.lblLeapToolsValue.Size = new System.Drawing.Size(13, 13);
+            this.lblLeapToolsValue.TabIndex = 0;
+            this.lblLeapToolsValue.Text = "0";
             // 
             // DebugWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(532, 389);
             this.Controls.Add(this.txtLeapMessages);
+            this.Controls.Add(this.lblLeapToolsValue);
+            this.Controls.Add(this.lblLeapFingersValue);
             this.Controls.Add(this.lblLeapStatus);
             this.Controls.Add(this.lblSpotifyStatus);
+            this.Controls.Add(this.lblLeapTools);
+            this.Controls.Add(this.lblLeapFingers);
             this.Controls.Add(this.lblLeapMessages);
             this.Controls.Add(this.lblLeap);
             this.Controls.Add(this.lblSpotify);
@@ -118,6 +166,7 @@
             this.Name = "DebugWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Debug Window";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DebugWindow_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,6 +182,10 @@
         private System.Windows.Forms.TextBox txtLeapMessages;
         private System.Windows.Forms.Timer spotifyCheck;
         private System.Windows.Forms.Timer leapMotionCheck;
+        private System.Windows.Forms.Label lblLeapFingers;
+        private System.Windows.Forms.Label lblLeapFingersValue;
+        private System.Windows.Forms.Label lblLeapTools;
+        private System.Windows.Forms.Label lblLeapToolsValue;
     }
 }
 

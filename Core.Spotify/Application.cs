@@ -12,7 +12,7 @@ namespace Core.Spotify
     {
         public bool IsInitalized { get { return _spotify != null; } }
 
-        public bool IsRunning { get { return GetPointer() != null; } }
+        public bool IsRunning { get { return GetPointer() != IntPtr.Zero; } }
 
         private IntPtr _spotify;
 
@@ -24,7 +24,7 @@ namespace Core.Spotify
         {
             var window = GetPointer();
 
-            if (window == null)
+            if (window == IntPtr.Zero)
             {
                 return AppPointerResult.NotFound;
             }

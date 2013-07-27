@@ -25,11 +25,35 @@ namespace Leapify
 
             _leap = new Core.LeapMotion.Leap();
             _leap.Gesture.OnMessage += Gesture_OnMessage;
+
+            spotifyCheck.Start();
+            leapMotionCheck.Start();
         }
 
         void Gesture_OnMessage(object source, string message)
         {
-            txtLeapMessages.AppendText(message);
+            try
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    if (message.Contains("Fingers:"))
+                    {
+                        lblLeapFingersValue.Text = message.Remove(0, 9);
+                    }
+                    else if (message.Contains("Tools:"))
+                    {
+                        lblLeapToolsValue.Text = message.Remove(0, 7);
+                    }
+                    else
+                    {
+                        txtLeapMessages.AppendText(message + Environment.NewLine);
+                    }
+                });
+            }
+            catch (ObjectDisposedException)
+            {
+                // App just shutting down, no big deal
+            }
         }
 
         private void spotifyCheck_Tick(object sender, EventArgs e)
@@ -40,6 +64,14 @@ namespace Leapify
         private void leapMotionCheck_Tick(object sender, EventArgs e)
         {
             lblLeapStatus.Text = _leap.IsConnected ? "Connected" : "Disconnected";
+        }
+
+        private void DebugWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            spotifyCheck.Stop();
+            leapMotionCheck.Stop();
+
+            _leap.Gesture.OnMessage -= Gesture_OnMessage;
         }
     }
 }
