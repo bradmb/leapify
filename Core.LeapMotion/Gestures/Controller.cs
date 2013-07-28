@@ -18,34 +18,79 @@ namespace Core.LeapMotion.Gestures
         #endif
 
         #region Public Access Variables
+        /// <summary>
+        /// The event called when a left swipe is successful
+        /// </summary>
         public event LeapActionHandler OnSwipeLeft;
 
+        /// <summary>
+        /// The event called when a right swipe is successful
+        /// </summary>
         public event LeapActionHandler OnSwipeRight;
 
+        /// <summary>
+        /// The event called when a swipe up is successful
+        /// </summary>
         public event LeapActionHandler OnSwipeUp;
 
+        /// <summary>
+        /// The event called when a swipe down is successful
+        /// </summary>
         public event LeapActionHandler OnSwipeDown;
 
+        /// <summary>
+        /// The event called when a screen tap is successful
+        /// </summary>
         public event LeapActionHandler OnScreenTap;
 
+        /// <summary>
+        /// The event called when a clockwise circle is successful
+        /// </summary>
         public event LeapActionHandler OnCircleClockwise;
 
+        /// <summary>
+        /// The event called when a counterclockwise circle is successful
+        /// </summary>
         public event LeapActionHandler OnCircleCounterclockwise;
 
+        /// <summary>
+        /// The event called when a device connects
+        /// </summary>
         public event LeapActionHandler OnLeapConnection;
 
+        /// <summary>
+        /// The amount of fingers required for a swipe to be approved
+        /// </summary>
         public int SwipeFingersRequired { get; set; }
 
+        /// <summary>
+        /// The amount of fingers required for a tap to be approved
+        /// </summary>
         public int TapFingersRequired { get; set; }
 
+        /// <summary>
+        /// The amount of tools (non-fingers) required for a swipe to be approved
+        /// </summary>
         public int SwipeToolsRequired { get; set; }
 
+        /// <summary>
+        /// The amount of tools (non-fingers) required for a tap to be approved
+        /// </summary>
         public int TapToolsRequired { get; set; }
 
+        /// <summary>
+        /// The amount of distance from start to end for a swipe to be approved
+        /// </summary>
         public int DistanceRequired { get; set; }
 
+        /// <summary>
+        /// The amount of speed required for a swipe to be approved
+        /// </summary>
         public int SpeedRequired { get; set; }
 
+        /// <summary>
+        /// The delay after an action is completed before we start tracking for new actions
+        /// </summary>
         public int TimeBeforeNextAction { get; set; }
         #endregion
 
@@ -81,11 +126,16 @@ namespace Core.LeapMotion.Gestures
 
         public override void OnConnect(Controller controller)
         {
+            // This lets anyone subscribed know that a device connected
             if (OnLeapConnection != null)
             {
                 OnLeapConnection();
             }
+
+            // If this was not enabled, we'd have to keep the program in the foreground
             controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
+
+            // We're using all the gestures in one way or another
             controller.EnableGesture(Gesture.GestureType.TYPECIRCLE);
             controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
             controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
@@ -111,11 +161,17 @@ namespace Core.LeapMotion.Gestures
         }
         #endif
 
+        /// <summary>
+        /// Called many (many) times a second. This system handles all gesture actions and responses
+        /// </summary>
+        /// <param name="controller"></param>
         public override void OnFrame(Controller controller)
         {
             var frame = controller.Frame();
             var gestures = frame.Gestures();
 
+            // Grab the current count of objects that the device
+            // can see and store that data for later use
             _visibleFingers = frame.Fingers.Count();
             _visibleTools = frame.Tools.Count();
             _visibleHands = frame.Hands.Count();
@@ -126,9 +182,8 @@ namespace Core.LeapMotion.Gestures
             SendDebugMessage("Hands: " + _visibleHands);
             #endif
             
-            var trackedGest = gestures;
-
-            if (!trackedGest.Any() || (_lastGestureEvent != DateTime.MinValue && DateTime.Now < _lastGestureEvent.AddMilliseconds(TimeBeforeNextAction)))
+            // If we're not currently tracking any gestures in this frame, do a cleanup check and don't continue on
+            if (!gestures.Any() || (_lastGestureEvent != DateTime.MinValue && DateTime.Now < _lastGestureEvent.AddMilliseconds(TimeBeforeNextAction)))
             {
                 if ((DateTime.Now - _lastGestureEvent).TotalSeconds > 2 && _currentlyTracking) {
                     _currentlyTracking = false;
@@ -142,6 +197,7 @@ namespace Core.LeapMotion.Gestures
                 return;
             }
 
+            // If there's no gesture in progress, make sure our active counts are set to zero
             if (!_currentlyTracking)
             {
                 _currentActionFingers = 0;
@@ -149,6 +205,7 @@ namespace Core.LeapMotion.Gestures
             }
             else
             {
+                // Else set all our active counts to the highest amount of objects there are for each type
                 if (_currentActionFingers < _visibleFingers)
                 {
                     _currentActionFingers = _visibleFingers;
@@ -165,25 +222,26 @@ namespace Core.LeapMotion.Gestures
                 }
             }
 
-            var thisGesture = trackedGest.First();
+            // There may be many, but we only care about the first.
+            var thisGesture = gestures.First();
 
             switch (thisGesture.Type)
             {
                 case Gesture.GestureType.TYPESWIPE:
                     var swipe = new SwipeGesture(thisGesture);
-                    ProcessSwipe(swipe);
+                    ProcessSwipe(swipe); // Swipe.cs
                     break;
                 case Gesture.GestureType.TYPESCREENTAP:
                     var screenTap = new ScreenTapGesture(thisGesture);
-                    ProcessScreenTap(screenTap);
+                    ProcessScreenTap(screenTap); // Tap.cs
                     break;
                 case Gesture.GestureType.TYPEKEYTAP:
                     var keyTap = new KeyTapGesture(thisGesture);
-                    ProcessKeyTap(keyTap);
+                    ProcessKeyTap(keyTap); // Tap.cs
                     break;
                 case Gesture.GestureType.TYPECIRCLE:
                     var circle = new CircleGesture(thisGesture);
-                    ProcessCircle(circle);
+                    ProcessCircle(circle); // Circle.cs
                     break;
             }
         }
