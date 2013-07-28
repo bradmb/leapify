@@ -26,11 +26,36 @@ namespace Leapify
             _leap = new Core.LeapMotion.Leap();
             _leap.Gesture.OnMessage += Gesture_OnMessage;
 
+            _leap.Gesture.FingersRequired = int.Parse(txtRequiredFingers.Text);
+            _leap.Gesture.DistanceRequired = int.Parse(txtMinDistance.Text);
+            _leap.Gesture.SpeedRequired = int.Parse(txtMinSpeed.Text);
+            _leap.Gesture.ToolsRequired = int.Parse(txtRequiredTools.Text);
+            _leap.Gesture.TimeBeforeNextAction = int.Parse(txtTimeBetween.Text);
+
+            _leap.Gesture.OnSwipeLeft += Gesture_OnSwipeLeft;
+            _leap.Gesture.OnSwipeRight += Gesture_OnSwipeRight;
+
             spotifyCheck.Start();
             leapMotionCheck.Start();
         }
 
-        void Gesture_OnMessage(object source, string message)
+        void Gesture_OnSwipeRight()
+        {
+            if (_spotify.IsRunning)
+            {
+                _spotify.NextTrack();
+            }
+        }
+
+        void Gesture_OnSwipeLeft()
+        {
+            if (_spotify.IsRunning)
+            {
+                _spotify.PreviousTrack();
+            }
+        }
+
+        void Gesture_OnMessage(string message)
         {
             try
             {
@@ -72,6 +97,33 @@ namespace Leapify
             leapMotionCheck.Stop();
 
             _leap.Gesture.OnMessage -= Gesture_OnMessage;
+            _leap.Gesture.OnSwipeLeft -= Gesture_OnSwipeLeft;
+            _leap.Gesture.OnSwipeRight -= Gesture_OnSwipeRight;
+        }
+
+        private void txtRequiredFingers_TextChanged(object sender, EventArgs e)
+        {
+            _leap.Gesture.FingersRequired = int.Parse(txtRequiredFingers.Text);
+        }
+
+        private void txtRequiredTools_TextChanged(object sender, EventArgs e)
+        {
+            _leap.Gesture.ToolsRequired = int.Parse(txtRequiredTools.Text);
+        }
+
+        private void txtMinSpeed_TextChanged(object sender, EventArgs e)
+        {
+            _leap.Gesture.SpeedRequired = int.Parse(txtMinSpeed.Text);
+        }
+
+        private void txtMinDistance_TextChanged(object sender, EventArgs e)
+        {
+            _leap.Gesture.DistanceRequired = int.Parse(txtMinDistance.Text);
+        }
+
+        private void txtTimeBetween_TextChanged(object sender, EventArgs e)
+        {
+            _leap.Gesture.TimeBeforeNextAction = int.Parse(txtTimeBetween.Text);
         }
     }
 }
