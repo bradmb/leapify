@@ -1,4 +1,5 @@
-﻿using Leap;
+﻿using Core.LeapMotion.Gestures;
+using Leap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Core.LeapMotion
 {
     public class Leap
     {
-        public GestureListener Gesture;
+        public GestureController Gesture;
 
         public bool IsConnected { get { return _leap.IsConnected; } }
 
@@ -19,7 +20,7 @@ namespace Core.LeapMotion
         {
             _leap = new Controller();
 
-            Gesture = new GestureListener();
+            Gesture = new GestureController();
             _leap.AddListener(Gesture);
         }
 
