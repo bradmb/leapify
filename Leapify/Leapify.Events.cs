@@ -12,7 +12,10 @@ namespace Leapify
         {
             await this.LoadSettingsIntoLeap();
 
-            _tray.ShowBalloonTip(100, "Leapify", "Leap Motion has connected", System.Windows.Forms.ToolTipIcon.Info);
+            if (_spotify.IsRunning)
+            {
+                _tray.ShowBalloonTip(100, "Leapify", "Ready for gestures!", System.Windows.Forms.ToolTipIcon.Info);
+            }
         }
 
         private async Task LoadSettingsIntoLeap()
