@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if DEBUG
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,9 +40,7 @@ namespace Leapify
 
             LoadSettingsIntoLeap();
 
-            #if DEBUG
             _leap.Gesture.OnMessage += Gesture_OnMessage;
-            #endif
         }
 
         void Gesture_OnCircleCounterclockwise()
@@ -157,9 +156,7 @@ namespace Leapify
             _leap.Gesture.OnSwipeLeft -= Gesture_OnSwipeLeft;
             _leap.Gesture.OnSwipeRight -= Gesture_OnSwipeRight;
 
-            #if DEBUG
             _leap.Gesture.OnMessage -= Gesture_OnMessage;
-            #endif
         }
 
         private void txtRequiredFingers_TextChanged(object sender, EventArgs e)
@@ -196,5 +193,11 @@ namespace Leapify
         {
             LoadSettingsIntoLeap();
         }
+
+        private void DebugWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
+#endif

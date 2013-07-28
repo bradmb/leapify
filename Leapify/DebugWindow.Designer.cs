@@ -1,4 +1,5 @@
-﻿namespace Leapify
+﻿#if DEBUG
+namespace Leapify
 {
     partial class DebugWindow
     {
@@ -351,6 +352,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Debug Window";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DebugWindow_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DebugWindow_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -388,4 +390,4 @@
         private System.Windows.Forms.Label lblLeapHandsValue;
     }
 }
-
+#endif

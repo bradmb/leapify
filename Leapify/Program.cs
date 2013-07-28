@@ -16,7 +16,13 @@ namespace Leapify
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DebugWindow());
+
+            using (Leapify leapify = new Leapify())
+            {
+                leapify.Start();
+
+                Application.Run();
+            }
         }
     }
 }
