@@ -1,5 +1,4 @@
-﻿#if DEBUG
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -198,6 +197,10 @@ namespace Leapify
         {
             Application.Exit();
         }
+
+        private void DebugWindow_Load(object sender, EventArgs e)
+        {
+            this.Icon = Images.LeapifyIcon;
+        }
     }
 }
-#endif
