@@ -11,12 +11,15 @@ namespace Core.LeapMotion.Gestures
     {
         private void ProcessSwipe(SwipeGesture swipe)
         {
+            if (_visibleHands > 1)
+            {
+                return;
+            }
+
             if (swipe.State == Gesture.GestureState.STATESTART && !_currentlyTracking)
             {
                 _currentlyTracking = true;
                 _currentlyTrackingType = swipe.Type;
-                _currentActionFingers = 0;
-                _currentActionTools = 0;
 
                 #if DEBUG
                 SendDebugMessage(string.Format("Swipe Start (posX:{0} posY:{1} fing:{2} tool:{3})", swipe.Position.x, swipe.Position.y, _visibleFingers, _visibleTools));
@@ -30,6 +33,14 @@ namespace Core.LeapMotion.Gestures
                 {
                     #if DEBUG
                     SendDebugMessage("Swipe Stop -- invalid finger count");
+                    #endif
+                    
+                    return;
+                }
+                else if (_currentActionTools != SwipeToolsRequired)
+                {
+                    #if DEBUG
+                    SendDebugMessage("Swipe Stop -- invalid tool count");
                     #endif
                     
                     return;
@@ -86,18 +97,6 @@ namespace Core.LeapMotion.Gestures
                 #endif
 
                 _lastGestureEvent = DateTime.Now;
-            }
-            else if (swipe.State == Gesture.GestureState.STATEUPDATE && _currentlyTracking && _currentlyTrackingType == swipe.Type)
-            {
-                if (_currentActionFingers < _visibleFingers)
-                {
-                    _currentActionFingers = _visibleFingers;
-                }
-
-                if (_currentActionTools < _visibleTools)
-                {
-                    _currentActionTools = _visibleTools;
-                }
             }
         }
     }

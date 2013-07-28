@@ -55,6 +55,8 @@
             this.txtRequiredFingersTap = new System.Windows.Forms.TextBox();
             this.lblRequiredToolsTap = new System.Windows.Forms.Label();
             this.txtRequiredToolsTap = new System.Windows.Forms.TextBox();
+            this.lblHandsInFrame = new System.Windows.Forms.Label();
+            this.lblLeapHandsValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblSpotify
@@ -294,6 +296,25 @@
             this.txtRequiredToolsTap.Text = "0";
             this.txtRequiredToolsTap.TextChanged += new System.EventHandler(this.txtRequiredToolsTap_TextChanged);
             // 
+            // lblHandsInFrame
+            // 
+            this.lblHandsInFrame.AutoSize = true;
+            this.lblHandsInFrame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHandsInFrame.Location = new System.Drawing.Point(386, 35);
+            this.lblHandsInFrame.Name = "lblHandsInFrame";
+            this.lblHandsInFrame.Size = new System.Drawing.Size(96, 13);
+            this.lblHandsInFrame.TabIndex = 0;
+            this.lblHandsInFrame.Text = "Hands In Frame";
+            // 
+            // lblLeapHandsValue
+            // 
+            this.lblLeapHandsValue.AutoSize = true;
+            this.lblLeapHandsValue.Location = new System.Drawing.Point(505, 35);
+            this.lblLeapHandsValue.Name = "lblLeapHandsValue";
+            this.lblLeapHandsValue.Size = new System.Drawing.Size(13, 13);
+            this.lblLeapHandsValue.TabIndex = 0;
+            this.lblLeapHandsValue.Text = "0";
+            // 
             // DebugWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,10 +336,12 @@
             this.Controls.Add(this.lblLeapRequiredFingers);
             this.Controls.Add(this.txtLeapMessages);
             this.Controls.Add(this.lblLeapToolsValue);
+            this.Controls.Add(this.lblLeapHandsValue);
             this.Controls.Add(this.lblLeapFingersValue);
             this.Controls.Add(this.lblLeapStatus);
             this.Controls.Add(this.lblSpotifyStatus);
             this.Controls.Add(this.lblLeapTools);
+            this.Controls.Add(this.lblHandsInFrame);
             this.Controls.Add(this.lblLeapFingers);
             this.Controls.Add(this.lblLeapMessages);
             this.Controls.Add(this.lblLeap);
@@ -361,6 +384,8 @@
         private System.Windows.Forms.TextBox txtRequiredFingersTap;
         private System.Windows.Forms.Label lblRequiredToolsTap;
         private System.Windows.Forms.TextBox txtRequiredToolsTap;
+        private System.Windows.Forms.Label lblHandsInFrame;
+        private System.Windows.Forms.Label lblLeapHandsValue;
     }
 }
 

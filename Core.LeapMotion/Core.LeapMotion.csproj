@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gestures\Circle.cs" />
     <Compile Include="Gestures\Controller.cs" />
     <Compile Include="Gestures\Swipe.cs" />
     <Compile Include="Gestures\Tap.cs" />

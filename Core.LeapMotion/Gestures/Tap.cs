@@ -11,6 +11,11 @@ namespace Core.LeapMotion.Gestures
     {
         private void ProcessScreenTap(ScreenTapGesture tap)
         {
+            if (_visibleHands > 1)
+            {
+                return;
+            }
+
             if (_visibleFingers != TapFingersRequired)
             {
                 #if DEBUG

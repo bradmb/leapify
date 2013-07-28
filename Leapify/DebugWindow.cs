@@ -31,6 +31,8 @@ namespace Leapify
             _leap.Gesture.OnScreenTap += Gesture_OnScreenTap;
             _leap.Gesture.OnSwipeUp += Gesture_OnSwipeUp;
             _leap.Gesture.OnSwipeDown += Gesture_OnSwipeDown;
+            _leap.Gesture.OnCircleClockwise += Gesture_OnCircleClockwise;
+            _leap.Gesture.OnCircleCounterclockwise += Gesture_OnCircleCounterclockwise;
 
             spotifyCheck.Start();
             leapMotionCheck.Start();
@@ -42,17 +44,23 @@ namespace Leapify
             #endif
         }
 
-        void Gesture_OnSwipeDown()
+        void Gesture_OnCircleCounterclockwise()
         {
             _spotify.VolumeDown();
-            _spotify.VolumeDown();
+        }
+
+        void Gesture_OnCircleClockwise()
+        {
+            _spotify.VolumeUp();
+        }
+
+        void Gesture_OnSwipeDown()
+        {
             _spotify.VolumeDown();
         }
 
         void Gesture_OnSwipeUp()
         {
-            _spotify.VolumeUp();
-            _spotify.VolumeUp();
             _spotify.VolumeUp();
         }
 
@@ -114,6 +122,10 @@ namespace Leapify
                     else if (message.Contains("Tools:"))
                     {
                         lblLeapToolsValue.Text = message.Remove(0, 7);
+                    }
+                    else if (message.Contains("Hands:"))
+                    {
+                        lblLeapHandsValue.Text = message.Remove(0, 7);
                     }
                     else
                     {

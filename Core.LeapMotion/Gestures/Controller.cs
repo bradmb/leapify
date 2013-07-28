@@ -28,6 +28,10 @@ namespace Core.LeapMotion.Gestures
 
         public event LeapActionHandler OnScreenTap;
 
+        public event LeapActionHandler OnCircleClockwise;
+
+        public event LeapActionHandler OnCircleCounterclockwise;
+
         public event LeapActionHandler OnLeapConnection;
 
         public int SwipeFingersRequired { get; set; }
@@ -50,11 +54,13 @@ namespace Core.LeapMotion.Gestures
         private Gesture.GestureType _currentlyTrackingType;
         private int _currentActionFingers;
         private int _currentActionTools;
+        private int _currentActionHands;
         #endregion
 
         #region System Variables
         private int _visibleFingers;
         private int _visibleTools;
+        private int _visibleHands;
         private DateTime _lastGestureEvent;
         #endregion
 
@@ -112,17 +118,51 @@ namespace Core.LeapMotion.Gestures
 
             _visibleFingers = frame.Fingers.Count();
             _visibleTools = frame.Tools.Count();
+            _visibleHands = frame.Hands.Count();
 
             #if DEBUG
             SendDebugMessage("Fingers: " + _visibleFingers);
             SendDebugMessage("Tools: " + _visibleTools);
+            SendDebugMessage("Hands: " + _visibleHands);
             #endif
             
             var trackedGest = gestures;
 
-            if (!trackedGest.Any() || _lastGestureEvent > DateTime.Now.AddMilliseconds(TimeBeforeNextAction))
+            if (!trackedGest.Any() || (_lastGestureEvent != DateTime.MinValue && DateTime.Now < _lastGestureEvent.AddMilliseconds(TimeBeforeNextAction)))
             {
+                if ((DateTime.Now - _lastGestureEvent).TotalSeconds > 2 && _currentlyTracking) {
+                    _currentlyTracking = false;
+                    _currentlyTrackingType = Gesture.GestureType.TYPEINVALID;
+
+                    #if DEBUG
+                    SendDebugMessage("Idle Device - Resetting gestures");
+                    #endif
+                }
+
                 return;
+            }
+
+            if (!_currentlyTracking)
+            {
+                _currentActionFingers = 0;
+                _currentActionTools = 0;
+            }
+            else
+            {
+                if (_currentActionFingers < _visibleFingers)
+                {
+                    _currentActionFingers = _visibleFingers;
+                }
+
+                if (_currentActionTools < _visibleTools)
+                {
+                    _currentActionTools = _visibleTools;
+                }
+
+                if (_currentActionHands < _visibleHands)
+                {
+                    _currentActionHands = _visibleHands;
+                }
             }
 
             var thisGesture = trackedGest.First();
@@ -140,6 +180,10 @@ namespace Core.LeapMotion.Gestures
                 case Gesture.GestureType.TYPEKEYTAP:
                     var keyTap = new KeyTapGesture(thisGesture);
                     ProcessKeyTap(keyTap);
+                    break;
+                case Gesture.GestureType.TYPECIRCLE:
+                    var circle = new CircleGesture(thisGesture);
+                    ProcessCircle(circle);
                     break;
             }
         }
