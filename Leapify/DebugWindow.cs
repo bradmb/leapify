@@ -39,7 +39,9 @@ namespace Leapify
 
             LoadSettingsIntoLeap();
 
+            #if DEBUG
             _leap.Gesture.OnMessage += Gesture_OnMessage;
+            #endif
         }
 
         void Gesture_OnCircleCounterclockwise()
@@ -155,7 +157,9 @@ namespace Leapify
             _leap.Gesture.OnSwipeLeft -= Gesture_OnSwipeLeft;
             _leap.Gesture.OnSwipeRight -= Gesture_OnSwipeRight;
 
+            #if DEBUG
             _leap.Gesture.OnMessage -= Gesture_OnMessage;
+            #endif
         }
 
         private void txtRequiredFingers_TextChanged(object sender, EventArgs e)
