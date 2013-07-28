@@ -24,19 +24,57 @@ namespace Leapify
             _spotify.Initalize();
 
             _leap = new Core.LeapMotion.Leap();
-            _leap.Gesture.OnMessage += Gesture_OnMessage;
-
-            _leap.Gesture.FingersRequired = int.Parse(txtRequiredFingers.Text);
-            _leap.Gesture.DistanceRequired = int.Parse(txtMinDistance.Text);
-            _leap.Gesture.SpeedRequired = int.Parse(txtMinSpeed.Text);
-            _leap.Gesture.ToolsRequired = int.Parse(txtRequiredTools.Text);
-            _leap.Gesture.TimeBeforeNextAction = int.Parse(txtTimeBetween.Text);
+            _leap.Gesture.OnLeapConnection += Gesture_OnLeapConnection;
 
             _leap.Gesture.OnSwipeLeft += Gesture_OnSwipeLeft;
             _leap.Gesture.OnSwipeRight += Gesture_OnSwipeRight;
+            _leap.Gesture.OnScreenTap += Gesture_OnScreenTap;
+            _leap.Gesture.OnSwipeUp += Gesture_OnSwipeUp;
+            _leap.Gesture.OnSwipeDown += Gesture_OnSwipeDown;
 
             spotifyCheck.Start();
             leapMotionCheck.Start();
+
+            LoadSettingsIntoLeap();
+
+            #if DEBUG
+            _leap.Gesture.OnMessage += Gesture_OnMessage;
+            #endif
+        }
+
+        void Gesture_OnSwipeDown()
+        {
+            _spotify.VolumeDown();
+            _spotify.VolumeDown();
+            _spotify.VolumeDown();
+        }
+
+        void Gesture_OnSwipeUp()
+        {
+            _spotify.VolumeUp();
+            _spotify.VolumeUp();
+            _spotify.VolumeUp();
+        }
+
+        void Gesture_OnScreenTap()
+        {
+            _spotify.PlayPause();
+        }
+
+        void Gesture_OnLeapConnection()
+        {
+            LoadSettingsIntoLeap();
+        }
+
+        private void LoadSettingsIntoLeap()
+        {
+            _leap.Gesture.SwipeFingersRequired = int.Parse(txtRequiredFingersSwipe.Text);
+            _leap.Gesture.SwipeToolsRequired = int.Parse(txtRequiredToolsSwipe.Text);
+            _leap.Gesture.TapFingersRequired = int.Parse(txtRequiredFingersTap.Text);
+            _leap.Gesture.TapToolsRequired = int.Parse(txtRequiredToolsTap.Text);
+            _leap.Gesture.DistanceRequired = int.Parse(txtMinDistance.Text);
+            _leap.Gesture.SpeedRequired = int.Parse(txtMinSpeed.Text);
+            _leap.Gesture.TimeBeforeNextAction = int.Parse(txtTimeBetween.Text);
         }
 
         void Gesture_OnSwipeRight()
@@ -45,6 +83,10 @@ namespace Leapify
             {
                 _spotify.NextTrack();
             }
+            else
+            {
+                MessageBox.Show("No Spotify, no change");
+            }
         }
 
         void Gesture_OnSwipeLeft()
@@ -52,6 +94,10 @@ namespace Leapify
             if (_spotify.IsRunning)
             {
                 _spotify.PreviousTrack();
+            }
+            else
+            {
+                MessageBox.Show("No Spotify, no change");
             }
         }
 
@@ -96,34 +142,47 @@ namespace Leapify
             spotifyCheck.Stop();
             leapMotionCheck.Stop();
 
-            _leap.Gesture.OnMessage -= Gesture_OnMessage;
             _leap.Gesture.OnSwipeLeft -= Gesture_OnSwipeLeft;
             _leap.Gesture.OnSwipeRight -= Gesture_OnSwipeRight;
+
+            #if DEBUG
+            _leap.Gesture.OnMessage -= Gesture_OnMessage;
+            #endif
         }
 
         private void txtRequiredFingers_TextChanged(object sender, EventArgs e)
         {
-            _leap.Gesture.FingersRequired = int.Parse(txtRequiredFingers.Text);
+            LoadSettingsIntoLeap();
         }
 
         private void txtRequiredTools_TextChanged(object sender, EventArgs e)
         {
-            _leap.Gesture.ToolsRequired = int.Parse(txtRequiredTools.Text);
+            LoadSettingsIntoLeap();
         }
 
         private void txtMinSpeed_TextChanged(object sender, EventArgs e)
         {
-            _leap.Gesture.SpeedRequired = int.Parse(txtMinSpeed.Text);
+            LoadSettingsIntoLeap();
         }
 
         private void txtMinDistance_TextChanged(object sender, EventArgs e)
         {
-            _leap.Gesture.DistanceRequired = int.Parse(txtMinDistance.Text);
+            LoadSettingsIntoLeap();
         }
 
         private void txtTimeBetween_TextChanged(object sender, EventArgs e)
         {
-            _leap.Gesture.TimeBeforeNextAction = int.Parse(txtTimeBetween.Text);
+            LoadSettingsIntoLeap();
+        }
+
+        private void txtRequiredFingersTap_TextChanged(object sender, EventArgs e)
+        {
+            LoadSettingsIntoLeap();
+        }
+
+        private void txtRequiredToolsTap_TextChanged(object sender, EventArgs e)
+        {
+            LoadSettingsIntoLeap();
         }
     }
 }

@@ -13,35 +13,51 @@ namespace Core.LeapMotion
 
     public class GestureListener : Listener
     {
+        #if DEBUG
         public event LeapMessageHandler OnMessage;
+        #endif
 
+        #region Public Access Variables
         public event LeapActionHandler OnSwipeLeft;
 
         public event LeapActionHandler OnSwipeRight;
 
-        public int FingersRequired { get; set; }
+        public event LeapActionHandler OnSwipeUp;
 
-        public int ToolsRequired { get; set; }
+        public event LeapActionHandler OnSwipeDown;
+
+        public event LeapActionHandler OnScreenTap;
+
+        public event LeapActionHandler OnLeapConnection;
+
+        public int SwipeFingersRequired { get; set; }
+
+        public int TapFingersRequired { get; set; }
+
+        public int SwipeToolsRequired { get; set; }
+
+        public int TapToolsRequired { get; set; }
 
         public int DistanceRequired { get; set; }
 
         public int SpeedRequired { get; set; }
 
         public int TimeBeforeNextAction { get; set; }
+        #endregion
 
         #region Action Tracking Variables
-        private bool currentlyTracking;
-        private int currentActionFingers;
-        private int currentActionTools;
+        private bool _currentlyTracking;
+        private int _currentActionFingers;
+        private int _currentActionTools;
         #endregion
 
         #region System Variables
-        private int visibleFingers;
-        private int visibleTools;
+        private int _visibleFingers;
+        private int _visibleTools;
         private DateTime _lastGestureEvent;
-        private Object thisLock = new Object();
         #endregion
 
+        #if DEBUG
         private void SendDebugMessage(string message)
         {
             if (OnMessage != null)
@@ -50,7 +66,6 @@ namespace Core.LeapMotion
             }
         }
 
-        #if DEBUG
         public override void OnInit(Controller controller)
         {
             SendDebugMessage("Initialized");
@@ -59,15 +74,20 @@ namespace Core.LeapMotion
 
         public override void OnConnect(Controller controller)
         {
+            if (OnLeapConnection != null)
+            {
+                OnLeapConnection();
+            }
+            controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
+            controller.EnableGesture(Gesture.GestureType.TYPECIRCLE);
+            controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
+            controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
+            controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
+
             #if DEBUG
             SendDebugMessage("Connected");
             #endif
 
-            controller.SetPolicyFlags(Controller.PolicyFlag.POLICYBACKGROUNDFRAMES);
-            //controller.EnableGesture(Gesture.GestureType.TYPECIRCLE);
-            //controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
-            controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
-            controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
         }
 
         #if DEBUG
@@ -89,17 +109,17 @@ namespace Core.LeapMotion
             var frame = controller.Frame();
             var gestures = frame.Gestures();
 
-            visibleFingers = frame.Fingers.Count();
-            visibleTools = frame.Tools.Count();
+            _visibleFingers = frame.Fingers.Count();
+            _visibleTools = frame.Tools.Count();
 
             #if DEBUG
-            SendDebugMessage("Fingers: " + visibleFingers);
-            SendDebugMessage("Tools: " + visibleTools);
+            SendDebugMessage("Fingers: " + _visibleFingers);
+            SendDebugMessage("Tools: " + _visibleTools);
             #endif
             
             var trackedGest = gestures;
 
-            if (!trackedGest.Any())
+            if (!trackedGest.Any() || _lastGestureEvent > DateTime.Now.AddMilliseconds(TimeBeforeNextAction))
             {
                 return;
             }
@@ -112,25 +132,111 @@ namespace Core.LeapMotion
                     var swipe = new SwipeGesture(thisGesture);
                     ProcessSwipe(swipe);
                     break;
+                case Gesture.GestureType.TYPESCREENTAP:
+                    var screenTap = new ScreenTapGesture(thisGesture);
+                    ProcessScreenTap(screenTap);
+                    break;
+                case Gesture.GestureType.TYPEKEYTAP:
+                    var keyTap = new KeyTapGesture(thisGesture);
+                    ProcessKeyTap(keyTap);
+                    break;
+                case Gesture.GestureType.TYPECIRCLE:
+                    var circle = new CircleGesture(thisGesture);
+                    ProcessCirlcle(circle);
+                    break;
             }
+        }
+
+        private void ProcessCirlcle(CircleGesture circle)
+        {
+        }
+
+        private void ProcessScreenTap(ScreenTapGesture tap)
+        {
+            if (_visibleFingers != TapFingersRequired)
+            {
+                #if DEBUG
+                SendDebugMessage("Screen Tap -- invalid finger count: " + _visibleFingers);
+                #endif
+                    
+                return;
+            }
+            else if (_visibleTools != TapToolsRequired)
+            {
+                #if DEBUG
+                SendDebugMessage("Screen Tap -- invalid tool count: " + _visibleTools);
+                #endif
+                    
+                return;
+            }
+
+            if (OnScreenTap != null)
+            {
+                OnScreenTap();
+            }
+
+            #if DEBUG
+            SendDebugMessage(string.Format("Screen Tap (x:{0} y:{1} dur:{2})",
+                tap.Direction.x,
+                tap.Direction.y,
+                tap.DurationSeconds
+            ));
+            #endif
+
+            _lastGestureEvent = DateTime.Now;
+        }
+
+        private void ProcessKeyTap(KeyTapGesture tap)
+        {
+            if (_visibleFingers != TapFingersRequired)
+            {
+                #if DEBUG
+                SendDebugMessage("Key Tap -- invalid finger count: " + _visibleFingers);
+                #endif
+                    
+                return;
+            }
+            else if (_visibleTools != TapToolsRequired)
+            {
+                #if DEBUG
+                SendDebugMessage("Key Tap -- invalid tool count: " + _visibleTools);
+                #endif
+                    
+                return;
+            }
+            if (OnScreenTap != null)
+            {
+                OnScreenTap();
+            }
+
+            #if DEBUG
+            SendDebugMessage(string.Format("Key Tap (x:{0} y:{1} dur:{2})",
+                tap.Direction.x,
+                tap.Direction.y,
+                tap.DurationSeconds
+            ));
+            #endif
+
+            _lastGestureEvent = DateTime.Now;
         }
 
         private void ProcessSwipe(SwipeGesture swipe)
         {
-            if (swipe.State == Gesture.GestureState.STATESTART && !currentlyTracking && _lastGestureEvent < DateTime.Now.AddMilliseconds(-TimeBeforeNextAction))
+            if (swipe.State == Gesture.GestureState.STATESTART && !_currentlyTracking)
             {
-                currentlyTracking = true;
-                currentActionFingers = 0;
+                _currentlyTracking = true;
+                _currentActionFingers = 0;
+                _currentActionTools = 0;
 
                 #if DEBUG
-                SendDebugMessage(string.Format("Swipe Start (posX:{0} posY:{1} fing:{2} tool:{3})", swipe.Position.x, swipe.Position.y, visibleFingers, visibleTools));
+                SendDebugMessage(string.Format("Swipe Start (posX:{0} posY:{1} fing:{2} tool:{3})", swipe.Position.x, swipe.Position.y, _visibleFingers, _visibleTools));
                 #endif
             }
-            else if (swipe.State == Gesture.GestureState.STATESTOP && currentlyTracking)
+            else if (swipe.State == Gesture.GestureState.STATESTOP && _currentlyTracking)
             {
-                currentlyTracking = false;
+                _currentlyTracking = false;
 
-                if (currentActionFingers != FingersRequired)
+                if (_currentActionFingers != SwipeFingersRequired)
                 {
                     #if DEBUG
                     SendDebugMessage("Swipe Stop -- invalid finger count");
@@ -138,7 +244,7 @@ namespace Core.LeapMotion
                     
                     return;
                 }
-                else if (currentActionTools != ToolsRequired)
+                else if (_currentActionTools != SwipeToolsRequired)
                 {
                     #if DEBUG
                     SendDebugMessage("Swipe Stop -- invalid tool count");
@@ -162,12 +268,21 @@ namespace Core.LeapMotion
                 }
 
 
-                if (swipe.Position.x < 0 && OnSwipeLeft != null)
+                if (swipe.Position.x < 0 && swipe.Direction.y > -0.5 && swipe.Direction.y < 0.5 && OnSwipeLeft != null)
                 {
                     OnSwipeLeft();
-                } else if (swipe.Position.x > 0 && OnSwipeRight != null)
+                }
+                else if (swipe.Position.x > 0 && swipe.Direction.y > -0.5 && swipe.Direction.y < 0.5 && OnSwipeRight != null)
                 {
                     OnSwipeRight();
+                }
+                else if (swipe.Direction.y > 0.7 && OnSwipeUp != null)
+                {
+                    OnSwipeUp();
+                }
+                else if (swipe.Direction.y < -0.7 && OnSwipeDown != null)
+                {
+                    OnSwipeDown();
                 }
 
                 #if DEBUG
@@ -182,16 +297,16 @@ namespace Core.LeapMotion
 
                 _lastGestureEvent = DateTime.Now;
             }
-            else if (swipe.State == Gesture.GestureState.STATEUPDATE && currentlyTracking)
+            else if (swipe.State == Gesture.GestureState.STATEUPDATE && _currentlyTracking)
             {
-                if (currentActionFingers < visibleFingers)
+                if (_currentActionFingers < _visibleFingers)
                 {
-                    currentActionFingers = visibleFingers;
+                    _currentActionFingers = _visibleFingers;
                 }
 
-                if (currentActionTools < visibleTools)
+                if (_currentActionTools < _visibleTools)
                 {
-                    currentActionTools = visibleTools;
+                    _currentActionTools = _visibleTools;
                 }
             }
         }
