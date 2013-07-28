@@ -12,9 +12,9 @@ namespace Leapify
     /// I hardly deal with WinForms in my day job, so it helped out a lot.
     /// http://www.codeproject.com/Articles/290013/Formless-System-Tray-Application
     /// </summary>
-    internal class Menu
+    public partial class Leapify
     {
-        internal ContextMenuStrip Render()
+        internal ContextMenuStrip RenderMenu()
         {
             var menu = new ContextMenuStrip();
 
@@ -66,7 +66,14 @@ namespace Leapify
 
         void setup_Click(object sender, EventArgs e)
         {
+            var settings = new SettingsForm();
+            settings.Show();
+            settings.FormClosed += settings_FormClosed;
+        }
 
+        async void settings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            await this.LoadSettingsIntoLeap();
         }
     }
 }

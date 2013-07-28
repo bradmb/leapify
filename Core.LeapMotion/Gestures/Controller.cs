@@ -59,6 +59,11 @@ namespace Core.LeapMotion.Gestures
         public event LeapActionHandler OnLeapConnection;
 
         /// <summary>
+        /// The event called when a device disconnects
+        /// </summary>
+        public event LeapActionHandler OnLeapDisconnection;
+
+        /// <summary>
         /// The amount of fingers required for a swipe to be approved
         /// </summary>
         public int SwipeFingersRequired { get; set; }
@@ -147,19 +152,13 @@ namespace Core.LeapMotion.Gestures
 
         }
 
-        #if DEBUG
         public override void OnDisconnect(Controller controller)
         {
-            SendDebugMessage("Disconnected");
+            if (OnLeapDisconnection != null)
+            {
+                OnLeapDisconnection();
+            }
         }
-        #endif
-
-        #if DEBUG
-        public override void OnExit(Controller controller)
-        {
-            SendDebugMessage("Exited");
-        }
-        #endif
 
         /// <summary>
         /// Called many (many) times a second. This system handles all gesture actions and responses
