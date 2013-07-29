@@ -8,7 +8,7 @@ Leapify is a small application that sits in your system tray and interacts with 
 
 **How does it work?** You move your hands, it uses the built in gesture recognition of the Leap Motion SDK, and it tells Spotify to do something. It's pretty simple, but you definitely have to do some error checking/validation unless you want to fire off five different things at once.
 
-**Where can I downloadit?** You can download the source code from this page if you want to compile and run (or contribute!) the latest version of the code. However, if you'd just like to run an installer and start using it, check out the release page for the latest compiled releases: https://github.com/bradmb/Leapify/releases
+**Where can I download it?** You can download the source code from this page if you want to compile and run (or contribute!) the latest version of the code. However, if you'd just like to run an installer and start using it, check out the release page for the latest compiled releases: https://github.com/bradmb/Leapify/releases
 
 -------
 
