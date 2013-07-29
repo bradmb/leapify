@@ -3,14 +3,15 @@ Leapify
 
 Leap Motion controller for Spotify
 
-**What is it?**
-Leapify is a small application that sits in your system tray and interacts with both the Leap Motion controller and Spotify, allowing you to control your music with *your hands*!
+**What is it?** Leapify is a small application that sits in your system tray and interacts with both the Leap Motion controller and Spotify, allowing you to control your music with *your hands*!
 
 **How does it work?** You move your hands, it uses the built in gesture recognition of the Leap Motion SDK, and it tells Spotify to do something. It's pretty simple, but you definitely have to do some error checking/validation unless you want to fire off five different things at once.
 
 **Any requirements?** Right now this will only work for Windows-based systems. No OS X build yet. I'll look into that down the road, as I have the hardware needed to get that working.
 
 **Where can I download it?** You can download the source code from this page if you want to compile and run (or contribute!) the latest version of the code. However, if you'd just like to run an installer and start using it, check out the release page for the latest compiled releases: https://github.com/bradmb/Leapify/releases
+
+**How do I report an issue?** Please report issues on the issues page: https://github.com/bradmb/Leapify/issues
 
 -------
 
