@@ -11,7 +11,7 @@ Leap Motion controller for Spotify
 
 **Where can I download it?** You can download the source code from this page if you want to compile and run (or contribute!) the latest version of the code. However, if you'd just like to run an installer and start using it, check out the release page for the latest compiled releases: https://github.com/bradmb/Leapify/releases
 
-**How do I report an issue?** Please report issues on the issues page: https://github.com/bradmb/Leapify/issues
+**How do I report an issue?** Please report any problems on the issues page: https://github.com/bradmb/Leapify/issues
 
 -------
 
