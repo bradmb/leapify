@@ -48,7 +48,7 @@ namespace Leapify
 
         private async void SettingsForm_Load(object sender, EventArgs e)
         {
-            this.Icon = Images.LeapifyIcon;
+            this.Icon = Images.leapify_active;
 
             var settingsFile = new LeapifySettings();
             var settings = await settingsFile.Read();

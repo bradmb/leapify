@@ -204,7 +204,7 @@ namespace Leapify
 
         private void DebugWindow_Load(object sender, EventArgs e)
         {
-            this.Icon = Images.LeapifyIcon;
+            this.Icon = Images.leapify_active;
         }
     }
 }

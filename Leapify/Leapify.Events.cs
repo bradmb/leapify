@@ -12,7 +12,7 @@ namespace Leapify
         {
             await this.LoadSettingsIntoLeap();
 
-            if (_spotify.IsRunning)
+            if (_spotify.IsRunning && !_isPaused)
             {
                 _tray.ShowBalloonTip(100, "Leapify", "Ready for gestures!", System.Windows.Forms.ToolTipIcon.Info);
             }
@@ -39,6 +39,11 @@ namespace Leapify
 
         void Gesture_OnCircleCounterclockwise()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.VolumeDown();
@@ -51,6 +56,11 @@ namespace Leapify
 
         void Gesture_OnCircleClockwise()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.VolumeUp();
@@ -63,6 +73,11 @@ namespace Leapify
 
         void Gesture_OnSwipeDown()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.VolumeDown();
@@ -75,6 +90,11 @@ namespace Leapify
 
         void Gesture_OnSwipeUp()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.VolumeUp();
@@ -87,6 +107,11 @@ namespace Leapify
 
         void Gesture_OnScreenTap()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.PlayPause();
@@ -99,6 +124,11 @@ namespace Leapify
 
         void Gesture_OnSwipeRight()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.NextTrack();
@@ -111,6 +141,11 @@ namespace Leapify
 
         void Gesture_OnSwipeLeft()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             if (_spotify.IsRunning)
             {
                 _spotify.PreviousTrack();

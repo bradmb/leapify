@@ -63,9 +63,19 @@ namespace Leapify {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon LeapifyIcon {
+        internal static System.Drawing.Icon leapify_active {
             get {
-                object obj = ResourceManager.GetObject("LeapifyIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("leapify_active", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon leapify_paused {
+            get {
+                object obj = ResourceManager.GetObject("leapify_paused", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

@@ -12,6 +12,7 @@ namespace Leapify
         NotifyIcon _tray;
         private Core.Spotify.Client _spotify;
         private Core.LeapMotion.Leap _leap;
+        private bool _isPaused = false;
 
         public Leapify()
         {
@@ -20,12 +21,26 @@ namespace Leapify
 
         private void DisplayTrayIcon()
         {
-            _tray.Icon = Images.LeapifyIcon;
+            _tray.Icon = Images.leapify_active;
             _tray.Text = "Leapify";
             _tray.Visible = true;
 
+            _tray.Click += _tray_Click;
             _tray.ContextMenuStrip = this.RenderMenu();
             _tray.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
+        }
+
+        void _tray_Click(object sender, EventArgs e)
+        {
+            if (_isPaused)
+            {
+                _isPaused = false;
+                _tray.Icon = Images.leapify_active;
+                return;
+            }
+
+            _isPaused = true;
+            _tray.Icon = Images.leapify_paused;
         }
 
         void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
