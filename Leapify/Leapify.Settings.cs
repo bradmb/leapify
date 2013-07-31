@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO.IsolatedStorage;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace Leapify
 {
@@ -24,16 +25,7 @@ namespace Leapify
 
             if (!files.Any())
             {
-                return new Models.Settings
-                {
-                    DistanceRequired = 100,
-                    SpeedRequired = 100,
-                    SwipeFingersRequired = 2,
-                    SwipeToolsRequired = 0,
-                    TapFingersRequired = 2,
-                    TapToolsRequired = 0,
-                    TimeBeforeNextAction = 500
-                };
+                return BuildNewConfig();
             }
 
             var storageFs = new IsolatedStorageFileStream(_IsolatedSettingsFile, System.IO.FileMode.Open, _storage);
@@ -41,19 +33,41 @@ namespace Leapify
 
             var settingsJson = await reader.ReadToEndAsync();
             var settingsData = await JsonConvert.DeserializeObjectAsync<Models.Settings>(settingsJson);
-
             reader.Close();
+
+            if (string.IsNullOrWhiteSpace(settingsData.ConfigVersion) || settingsData.ConfigVersion != Application.ProductVersion)
+            {
+                return BuildNewConfig();
+            }
+
             return settingsData;
         }
 
         internal async Task Update(Models.Settings settingsData)
         {
+            settingsData.ConfigVersion = Application.ProductVersion;
             var storageFs = new IsolatedStorageFileStream(_IsolatedSettingsFile, System.IO.FileMode.Create, _storage);
             var writer = new StreamWriter(storageFs);
 
             var settingsJson = await JsonConvert.SerializeObjectAsync(settingsData);
             await writer.WriteAsync(settingsJson);
             writer.Close();
+        }
+
+        internal Models.Settings BuildNewConfig()
+        {
+            return new Models.Settings
+            {
+                ConfigVersion = Application.ProductVersion,
+                DistanceRequired = 100,
+                SpeedRequired = 100,
+                SwipeFingersRequired = 2,
+                SwipeToolsRequired = 0,
+                TapFingersRequired = 2,
+                TapToolsRequired = 0,
+                TimeBeforeNextAction = 500,
+                VolumeSpeedIncrease = 1
+            };
         }
     }
 }

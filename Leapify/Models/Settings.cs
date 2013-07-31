@@ -8,6 +8,8 @@ namespace Leapify.Models
 {
     public class Settings
     {
+        public string ConfigVersion { get; set; }
+
         public int SwipeFingersRequired { get; set; }
 
         public int SwipeToolsRequired { get; set; }
@@ -21,5 +23,7 @@ namespace Leapify.Models
         public int SpeedRequired { get; set; }
         
         public int TimeBeforeNextAction { get; set; }
+
+        public int VolumeSpeedIncrease { get; set; }
     }
 }

@@ -46,12 +46,16 @@
             this.lblDistanceValue = new System.Windows.Forms.Label();
             this.lblSpeedValue = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.label9 = new System.Windows.Forms.Label();
             this.timeBeforeNextAction = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
-            this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.volumeIncreaseSpeed = new System.Windows.Forms.TrackBar();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.swipeFingersRequired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.swipeToolsRequired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.distanceRequired)).BeginInit();
@@ -59,6 +63,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tapFingersRequired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tapToolsRequired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.timeBeforeNextAction)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeIncreaseSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -161,7 +166,7 @@
             // 
             // btnSaveSettings
             // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(384, 241);
+            this.btnSaveSettings.Location = new System.Drawing.Point(393, 286);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(88, 23);
             this.btnSaveSettings.TabIndex = 4;
@@ -247,9 +252,18 @@
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
             this.lineShape2,
             this.lineShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(484, 276);
+            this.shapeContainer1.Size = new System.Drawing.Size(484, 315);
             this.shapeContainer1.TabIndex = 6;
             this.shapeContainer1.TabStop = false;
+            // 
+            // lineShape2
+            // 
+            this.lineShape2.BorderColor = System.Drawing.Color.Silver;
+            this.lineShape2.Name = "lineShape2";
+            this.lineShape2.X1 = 216;
+            this.lineShape2.X2 = 216;
+            this.lineShape2.Y1 = 139;
+            this.lineShape2.Y2 = 308;
             // 
             // lineShape1
             // 
@@ -300,15 +314,6 @@
             this.label10.TabIndex = 9;
             this.label10.Text = "milliseconds";
             // 
-            // lineShape2
-            // 
-            this.lineShape2.BorderColor = System.Drawing.Color.Silver;
-            this.lineShape2.Name = "lineShape2";
-            this.lineShape2.X1 = 216;
-            this.lineShape2.X2 = 216;
-            this.lineShape2.Y1 = 139;
-            this.lineShape2.Y2 = 260;
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -319,11 +324,54 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Global Settings";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(232, 218);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(120, 13);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "Volume Increase Speed";
+            // 
+            // volumeIncreaseSpeed
+            // 
+            this.volumeIncreaseSpeed.LargeChange = 1;
+            this.volumeIncreaseSpeed.Location = new System.Drawing.Point(266, 234);
+            this.volumeIncreaseSpeed.Maximum = 5;
+            this.volumeIncreaseSpeed.Minimum = 1;
+            this.volumeIncreaseSpeed.Name = "volumeIncreaseSpeed";
+            this.volumeIncreaseSpeed.Size = new System.Drawing.Size(104, 45);
+            this.volumeIncreaseSpeed.TabIndex = 3;
+            this.volumeIncreaseSpeed.Value = 1;
+            this.volumeIncreaseSpeed.Scroll += new System.EventHandler(this.speedRequired_Scroll);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(232, 243);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(30, 13);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "Slow";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(376, 243);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(30, 13);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Fast!";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 276);
+            this.ClientSize = new System.Drawing.Size(484, 315);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.volumeIncreaseSpeed);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.timeBeforeNextAction);
@@ -358,6 +406,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tapFingersRequired)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tapToolsRequired)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.timeBeforeNextAction)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.volumeIncreaseSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,5 +438,9 @@
         private System.Windows.Forms.NumericUpDown timeBeforeNextAction;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TrackBar volumeIncreaseSpeed;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
     }
 }

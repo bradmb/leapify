@@ -30,6 +30,8 @@ namespace Leapify
             _leap.Gesture.DistanceRequired = settings.DistanceRequired;
             _leap.Gesture.SpeedRequired = settings.SpeedRequired;
             _leap.Gesture.TimeBeforeNextAction = settings.TimeBeforeNextAction;
+
+            _volumeSpeedIncrease = settings.VolumeSpeedIncrease;
         }
 
         void Gesture_OnLeapDisconnection()
@@ -46,7 +48,10 @@ namespace Leapify
 
             if (_spotify.IsRunning)
             {
-                _spotify.VolumeDown();
+                for (int curVol = 0; curVol < _volumeSpeedIncrease; curVol++)
+                {
+                    _spotify.VolumeDown();
+                }
             }
             else
             {
@@ -63,7 +68,10 @@ namespace Leapify
 
             if (_spotify.IsRunning)
             {
-                _spotify.VolumeUp();
+                for (int curVol = 0; curVol < _volumeSpeedIncrease; curVol++)
+                {
+                    _spotify.VolumeUp();
+                }
             }
             else
             {
@@ -80,7 +88,10 @@ namespace Leapify
 
             if (_spotify.IsRunning)
             {
-                _spotify.VolumeDown();
+                for (int curVol = 0; curVol < _volumeSpeedIncrease; curVol++)
+                {
+                    _spotify.VolumeDown();
+                }
             }
             else
             {
@@ -97,7 +108,10 @@ namespace Leapify
 
             if (_spotify.IsRunning)
             {
-                _spotify.VolumeUp();
+                for (int curVol = 0; curVol < _volumeSpeedIncrease; curVol++)
+                {
+                    _spotify.VolumeUp();
+                }
             }
             else
             {

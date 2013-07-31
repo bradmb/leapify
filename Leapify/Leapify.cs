@@ -13,6 +13,7 @@ namespace Leapify
         private Core.Spotify.Client _spotify;
         private Core.LeapMotion.Leap _leap;
         private bool _isPaused = false;
+        private int _volumeSpeedIncrease = 1;
 
         public Leapify()
         {
@@ -37,6 +38,11 @@ namespace Leapify
                 _isPaused = false;
                 _tray.Icon = Images.leapify_active;
                 return;
+            }
+
+            for (int curVol = 0; curVol < _volumeSpeedIncrease; curVol++)
+            {
+                _spotify.VolumeUp();
             }
 
             _isPaused = true;

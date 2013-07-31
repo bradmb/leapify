@@ -27,7 +27,8 @@ namespace Leapify
                 SwipeToolsRequired = (int)swipeToolsRequired.Value,
                 SwipeFingersRequired = (int)swipeFingersRequired.Value,
                 SpeedRequired = (int)speedRequired.Value,
-                DistanceRequired = (int)distanceRequired.Value
+                DistanceRequired = (int)distanceRequired.Value,
+                VolumeSpeedIncrease = (int)volumeIncreaseSpeed.Value
             };
 
             var settingsFile = new LeapifySettings();
@@ -60,6 +61,10 @@ namespace Leapify
             speedRequired.Value = settings.SpeedRequired;
             tapToolsRequired.Value = settings.TapToolsRequired;
             tapFingersRequired.Value = settings.TapFingersRequired;
+            volumeIncreaseSpeed.Value = settings.VolumeSpeedIncrease;
+
+            lblDistanceValue.Text = settings.DistanceRequired.ToString();
+            lblSpeedValue.Text = settings.SpeedRequired.ToString();
         }
     }
 }
