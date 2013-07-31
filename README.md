@@ -21,6 +21,10 @@ Before using the controls below, check out the settings window inside the applic
 
 Also, as a default, swipe and tap actions require that **only two fingers** are visible. If you show any more or less, it will ignore you. I've found it helps to prevent against accidental actions. The version I originally wrote in a half hour had a lot of accidental actions fire since it didn't have this protection.
 
+**Left click on icon** -- Pause/unpause tracking
+
+**Right click on icon** -- Show menu
+
 **Swipe Left** -- Previous Track
 
 **Swipe Right** -- Next Track
