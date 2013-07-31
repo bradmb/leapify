@@ -26,25 +26,27 @@ namespace Leapify
             _tray.Text = "Leapify";
             _tray.Visible = true;
 
-            _tray.Click += _tray_Click;
+            _tray.MouseClick += _tray_MouseClick;
             _tray.ContextMenuStrip = this.RenderMenu();
             _tray.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
         }
 
-        void _tray_Click(object sender, EventArgs e)
+        void _tray_MouseClick(object sender, MouseEventArgs e)
         {
+            if (e.Button != MouseButtons.Left)
+            {
+                return;
+            }
+
             if (_isPaused)
             {
+                _tray.Text = "Leapify";
                 _isPaused = false;
                 _tray.Icon = Images.leapify_active;
                 return;
             }
 
-            for (int curVol = 0; curVol < _volumeSpeedIncrease; curVol++)
-            {
-                _spotify.VolumeUp();
-            }
-
+            _tray.Text = "Leapify [PAUSED]";
             _isPaused = true;
             _tray.Icon = Images.leapify_paused;
         }
