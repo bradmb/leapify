@@ -45,9 +45,6 @@
             this.tapToolsRequired = new System.Windows.Forms.NumericUpDown();
             this.lblDistanceValue = new System.Windows.Forms.Label();
             this.lblSpeedValue = new System.Windows.Forms.Label();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.label9 = new System.Windows.Forms.Label();
             this.timeBeforeNextAction = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
@@ -56,6 +53,8 @@
             this.volumeIncreaseSpeed = new System.Windows.Forms.TrackBar();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.swipeFingersRequired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.swipeToolsRequired)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.distanceRequired)).BeginInit();
@@ -244,36 +243,6 @@
             this.lblSpeedValue.TabIndex = 5;
             this.lblSpeedValue.Text = "100";
             // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.lineShape2,
-            this.lineShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(484, 315);
-            this.shapeContainer1.TabIndex = 6;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // lineShape2
-            // 
-            this.lineShape2.BorderColor = System.Drawing.Color.Silver;
-            this.lineShape2.Name = "lineShape2";
-            this.lineShape2.X1 = 216;
-            this.lineShape2.X2 = 216;
-            this.lineShape2.Y1 = 139;
-            this.lineShape2.Y2 = 308;
-            // 
-            // lineShape1
-            // 
-            this.lineShape1.BorderColor = System.Drawing.Color.Silver;
-            this.lineShape1.Name = "lineShape1";
-            this.lineShape1.X1 = 22;
-            this.lineShape1.X2 = 468;
-            this.lineShape1.Y1 = 121;
-            this.lineShape1.Y2 = 121;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -363,11 +332,29 @@
             this.label14.TabIndex = 5;
             this.label14.Text = "Fast!";
             // 
+            // label15
+            // 
+            this.label15.BackColor = System.Drawing.Color.Silver;
+            this.label15.Location = new System.Drawing.Point(17, 118);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(454, 1);
+            this.label15.TabIndex = 10;
+            // 
+            // label16
+            // 
+            this.label16.BackColor = System.Drawing.Color.Silver;
+            this.label16.Location = new System.Drawing.Point(197, 132);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(1, 170);
+            this.label16.TabIndex = 11;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 315);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.volumeIncreaseSpeed);
             this.Controls.Add(this.label12);
@@ -393,7 +380,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.shapeContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -431,9 +417,6 @@
         private System.Windows.Forms.NumericUpDown tapToolsRequired;
         private System.Windows.Forms.Label lblDistanceValue;
         private System.Windows.Forms.Label lblSpeedValue;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
-        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown timeBeforeNextAction;
         private System.Windows.Forms.Label label10;
@@ -442,5 +425,7 @@
         private System.Windows.Forms.TrackBar volumeIncreaseSpeed;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
     }
 }
